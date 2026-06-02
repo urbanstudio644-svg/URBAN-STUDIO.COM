@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Urban Studio — Graphic Design | Contact Buttons</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,700;1,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --black: #0a0a0a;
+    --white: #f5f0e8;
+    --cream: #e8e0d0;
+    --red: #e63329;
+    --yellow: #f5c800;
+    --gray: #1a1a1a;
+    --mid: #2e2e2e;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    cursor: none;
+    overflow-x: hidden;
+  }
+
+  /* CUSTOM CURSOR */
+  #cursor {
+    position: fixed; top: 0; left: 0; z-index: 9999;
+    pointer-events: none;
+    mix-blend-mode: difference;
+  }
+  #cursor-dot {
+    width: 10px; height: 10px;
+    background: var(--white);
+    border-radius: 50%;
+    position: absolute;
+    transform: translate(-50%,-50%);
+    transition: transform 0.1s;
+  }
+  #cursor-ring {
+    width: 42px; height: 42px;
+    border: 1.5px solid var(--white);
+    border-radius: 50%;
+    position: absolute;
+    transform: translate(-50%,-50%);
+    transition: width 0.3s, height 0.3s, border-color 0.3s;
+  }
+  body.hovering #cursor-ring { width: 70px; height: 70px; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 24px 48px;
+    mix-blend-mode: difference;
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 4px;
+    color: var(--white);
+    text-decoration: none;
+  }
+  .nav-links {
+    display: flex; gap: 40px; list-style: none;
+  }
+  .nav-links a {
+    color: var(--white); text-decoration: none;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px; letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.6; transition: opacity 0.2s;
+  }
+  .nav-links a:hover { opacity: 1; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 48px 80px;
+    position: relative;
+    overflow: hidden;
+    background: var(--black);
+  }
+  .hero-bg-text {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(120px, 20vw, 260px);
+    color: transparent;
+    -webkit-text-stroke: 1px #ffffff0d;
+    letter-spacing: -4px;
+    white-space: nowrap;
+    pointer-events: none;
+    user-select: none;
+    animation: bgDrift 20s ease-in-out infinite alternate;
+  }
+  @keyframes bgDrift { from{transform:translate(-50%,-50%) scale(1)} to{transform:translate(-48%,-52%) scale(1.04)} }
+
+  .hero-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px; letter-spacing: 4px;
+    color: var(--red);
+    margin-bottom: 20px;
+    animation: fadeUp 1s ease 0.2s both;
+  }
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(72px, 12vw, 160px);
+    line-height: 0.88;
+    letter-spacing: -2px;
+    animation: fadeUp 1s ease 0.4s both;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--yellow);
+    -webkit-text-stroke: 0;
+  }
+  .hero-sub {
+    margin-top: 32px;
+    display: flex; align-items: flex-end; justify-content: space-between;
+    animation: fadeUp 1s ease 0.6s both;
+  }
+  .hero-desc {
+    max-width: 360px;
+    font-size: 15px; line-height: 1.7;
+    color: #888;
+    font-weight: 300;
+  }
+  .hero-cta {
+    display: flex; align-items: center; gap: 16px;
+    text-decoration: none;
+    color: var(--white);
+    font-family: 'Space Mono', monospace;
+    font-size: 12px; letter-spacing: 2px;
+  }
+  .hero-cta-circle {
+    width: 56px; height: 56px;
+    border: 1px solid #444;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    transition: background 0.3s, border-color 0.3s;
+  }
+  .hero-cta:hover .hero-cta-circle { background: var(--red); border-color: var(--red); }
+
+  .hero-scroll {
+    position: absolute; right: 48px; top: 50%;
+    transform: translateY(-50%) rotate(90deg);
+    font-family: 'Space Mono', monospace;
+    font-size: 10px; letter-spacing: 3px;
+    color: #444; white-space: nowrap;
+  }
+
+  /* MARQUEE */
+  .marquee-wrap {
+    overflow: hidden;
+    border-top: 1px solid #1e1e1e;
+    border-bottom: 1px solid #1e1e1e;
+    background: var(--red);
+    padding: 16px 0;
+  }
+  .marquee-track {
+    display: flex; gap: 0;
+    animation: marquee 18s linear infinite;
+    white-space: nowrap;
+  }
+  .marquee-item {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px; letter-spacing: 4px;
+    color: var(--black);
+    padding: 0 40px;
+    display: flex; align-items: center; gap: 40px;
+  }
+  .marquee-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--black); }
+  @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+  /* SECTION HEADER */
+  .section-header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    padding: 80px 48px 40px;
+    border-top: 1px solid #1a1a1a;
+  }
+  .section-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px; letter-spacing: 3px; color: var(--red);
+  }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(42px, 6vw, 80px);
+    letter-spacing: -1px;
+    line-height: 1;
+  }
+  .section-link {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px; letter-spacing: 2px;
+    color: #555; text-decoration: none;
+    padding-bottom: 2px;
+    border-bottom: 1px solid #333;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .section-link:hover { color: var(--white); border-color: var(--white); }
+
+  /* WORK GRID */
+  .work-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 2px;
+    padding: 0 48px 2px;
+  }
+  .work-item {
+    position: relative; overflow: hidden;
+    background: var(--gray);
+    cursor: none;
+  }
+  .work-item:nth-child(1) { grid-column: 1/8; grid-row: 1/2; aspect-ratio: 16/9; }
+  .work-item:nth-child(2) { grid-column: 8/13; grid-row: 1/2; }
+  .work-item:nth-child(3) { grid-column: 1/5; grid-row: 2/3; aspect-ratio: 4/5; }
+  .work-item:nth-child(4) { grid-column: 5/9; grid-row: 2/3; }
+  .work-item:nth-child(5) { grid-column: 9/13; grid-row: 2/3; }
+
+  .work-visual {
+    width: 100%; height: 100%; min-height: 280px;
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+    transition: transform 0.6s cubic-bezier(.16,1,.3,1);
+  }
+  .work-item:hover .work-visual { transform: scale(1.04); }
+
+  .vis-1 { background: linear-gradient(135deg,#1a0a0a 0%,#3d0f0f 100%); }
+  .vis-2 { background: linear-gradient(160deg,#0a0a1a 0%,#1a1a3d 100%); }
+  .vis-3 { background: linear-gradient(135deg,#0a1a0a 0%,#1a3d1a 100%); }
+  .vis-4 { background: #111; }
+  .vis-5 { background: linear-gradient(160deg,#1a1a0a 0%,#2e2a00 100%); }
+
+  .mock-type {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(40px,8vw,110px);
+    letter-spacing: -2px;
+    line-height: 1;
+    text-align: center;
+    padding: 20px;
+  }
+  .mock-geo {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .work-overlay {
+    position: absolute; inset: 0;
+    background: var(--black);
+    opacity: 0;
+    display: flex; flex-direction: column;
+    justify-content: flex-end;
+    padding: 28px;
+    transition: opacity 0.35s ease;
+  }
+  .work-item:hover .work-overlay { opacity: 0.92; }
+  .work-overlay-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px; letter-spacing: 3px;
+    color: var(--red); margin-bottom: 8px;
+  }
+  .work-overlay-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px; letter-spacing: 1px;
+    color: var(--white);
+  }
+  .work-overlay-arrow {
+    position: absolute; top: 24px; right: 24px;
+    width: 40px; height: 40px;
+    border: 1px solid #333; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    transition: background 0.2s;
+  }
+  .work-item:hover .work-overlay-arrow { background: var(--red); border-color: var(--red); }
+
+  /* SERVICES */
+  .services {
+    padding: 0 48px 80px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin-top: 2px;
+  }
+  .service-card {
+    background: var(--gray);
+    padding: 44px 40px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+  .service-card:hover { background: var(--mid); }
+  .service-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px; letter-spacing: 3px;
+    color: #444; margin-bottom: 24px;
+  }
+  .service-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px; letter-spacing: 1px;
+    margin-bottom: 16px;
+  }
+  .service-desc {
+    font-size: 14px; line-height: 1.8;
+    color: #666; font-weight: 300;
+    max-width: 320px;
+  }
+  .service-icon {
+    position: absolute; bottom: 32px; right: 32px;
+    font-size: 32px; opacity: 0.15;
+    transition: opacity 0.3s, transform 0.3s;
+  }
+  .service-card:hover .service-icon { opacity: 0.4; transform: scale(1.1) rotate(-5deg); }
+
+  /* ABOUT STRIP */
+  .about-strip {
+    display: grid; grid-template-columns: 1fr 1fr;
+    border-top: 1px solid #1a1a1a;
+    margin: 0 48px;
+  }
+  .about-left {
+    padding: 80px 60px 80px 0;
+    border-right: 1px solid #1a1a1a;
+  }
+  .about-right {
+    padding: 80px 0 80px 60px;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .about-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px; letter-spacing: 4px;
+    color: var(--red); margin-bottom: 24px;
+  }
+  .about-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(38px, 5vw, 64px);
+    line-height: 1; margin-bottom: 28px;
+  }
+  .about-body {
+    font-size: 15px; line-height: 1.85;
+    color: #666; font-weight: 300;
+    max-width: 440px;
+  }
+  .stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  .stat-val {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 64px; color: var(--yellow);
+    line-height: 1;
+  }
+  .stat-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px; letter-spacing: 2px;
+    color: #444; margin-top: 6px;
+  }
+
+  /* CONTACT */
+  .contact-section {
+    padding: 100px 48px;
+    border-top: 1px solid #1a1a1a;
+    display: flex; flex-direction: column;
+    align-items: flex-start;
+  }
+  .contact-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px; letter-spacing: 4px;
+    color: var(--red); margin-bottom: 24px;
+  }
+  .contact-big {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(56px, 10vw, 130px);
+    letter-spacing: -2px;
+    line-height: 1;
+    margin-bottom: 48px;
+  }
+  .contact-big span { color: var(--yellow); }
+  .contact-email {
+    font-family: 'Space Mono', monospace;
+    font-size: 14px; letter-spacing: 1px;
+    color: var(--white); text-decoration: none;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #333;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .contact-email:hover { border-color: var(--red); color: var(--red); }
+
+  /* ----- NEW CONTACT BUTTONS (INSTA, BEHANCE, PINTEREST, WHATSAPP) ----- */
+  .social-buttons-area {
+    margin-top: 64px;
+    width: 100%;
+  }
+  .social-group-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: var(--red);
+    margin-bottom: 24px;
+    text-transform: uppercase;
+  }
+  .contact-btn-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+  }
+  .contact-btn {
+    display: inline-block;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    font-weight: 500;
+    text-transform: uppercase;
+    text-decoration: none;
+    background: transparent;
+    border: 1px solid #2e2e2e;
+    color: var(--white);
+    padding: 12px 28px;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+    border-radius: 0px;
+    backdrop-filter: blur(0px);
+  }
+  .contact-btn:hover {
+    background: var(--red);
+    border-color: var(--red);
+    color: #0a0a0a;
+  }
+  /* Additional subtle hover text glow */
+  .contact-btn:active {
+    transform: scale(0.96);
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid #1a1a1a;
+    padding: 32px 48px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px; letter-spacing: 4px;
+    color: #333;
+  }
+  .footer-copy {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px; letter-spacing: 2px;
+    color: #333;
+  }
+  .footer-socials {
+    display: flex;
+    gap: 28px;
+    flex-wrap: wrap;
+  }
+  .footer-socials a {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px; letter-spacing: 2px;
+    color: #444; text-decoration: none;
+    transition: color 0.2s;
+    text-transform: uppercase;
+  }
+  .footer-socials a:hover { color: var(--white); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(30px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+  .reveal {
+    opacity:0; transform:translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+
+  /* MOBILE */
+  @media(max-width:768px){
+    nav { padding:20px 24px; }
+    .nav-links { gap:20px; }
+    .hero { padding:0 24px 60px; }
+    .hero-scroll { display:none; }
+    .work-grid { padding:0 24px 2px; display:flex; flex-direction:column; }
+    .work-item { aspect-ratio:4/3 !important; }
+    .section-header { padding:60px 24px 30px; flex-wrap:wrap; gap:16px; }
+    .services { padding:0 24px 60px; grid-template-columns:1fr; }
+    .about-strip { grid-template-columns:1fr; margin:0 24px; }
+    .about-left { border-right:none; border-bottom:1px solid #1a1a1a; padding:60px 0; }
+    .about-right { padding:60px 0; }
+    .contact-section { padding:80px 24px; }
+    footer { padding:24px; flex-direction:column; gap:20px; text-align:center; }
+    .footer-socials { justify-content: center; gap: 20px; }
+    .contact-btn-grid { gap: 12px; justify-content: center; width: 100%; }
+    .contact-btn { padding: 10px 20px; font-size: 10px; letter-spacing: 2px; }
+    .social-buttons-area { margin-top: 48px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Custom Cursor -->
+<div id="cursor">
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">URBAN STUDIO</a>
+  <ul class="nav-links">
+    <li><a href="#work">Work</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-text">URBAN STUDIO</div>
+  <div class="hero-tag">GRAPHIC DESIGN · BRANDING · VISUAL IDENTITY</div>
+  <h1>WE DESIGN<br><em>CULTURE</em></h1>
+  <div class="hero-sub">
+    <p class="hero-desc">Urban Studio is a graphic design collective that transforms ideas into raw, powerful visual identities. We speak the language of the streets.</p>
+    <a class="hero-cta" href="#work">
+      <span>VIEW WORK</span>
+      <div class="hero-cta-circle">↓</div>
+    </a>
+  </div>
+  <span class="hero-scroll">SCROLL TO EXPLORE</span>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <div class="marquee-item">BRAND IDENTITY <span class="marquee-dot"></span></div>
+    <div class="marquee-item">TYPOGRAPHY <span class="marquee-dot"></span></div>
+    <div class="marquee-item">POSTER DESIGN <span class="marquee-dot"></span></div>
+    <div class="marquee-item">PACKAGING <span class="marquee-dot"></span></div>
+    <div class="marquee-item">ART DIRECTION <span class="marquee-dot"></span></div>
+    <div class="marquee-item">MOTION GRAPHICS <span class="marquee-dot"></span></div>
+    <div class="marquee-item">EDITORIAL <span class="marquee-dot"></span></div>
+    <div class="marquee-item">URBAN CULTURE <span class="marquee-dot"></span></div>
+    <div class="marquee-item">BRAND IDENTITY <span class="marquee-dot"></span></div>
+    <div class="marquee-item">TYPOGRAPHY <span class="marquee-dot"></span></div>
+    <div class="marquee-item">POSTER DESIGN <span class="marquee-dot"></span></div>
+    <div class="marquee-item">PACKAGING <span class="marquee-dot"></span></div>
+    <div class="marquee-item">ART DIRECTION <span class="marquee-dot"></span></div>
+    <div class="marquee-item">MOTION GRAPHICS <span class="marquee-dot"></span></div>
+    <div class="marquee-item">EDITORIAL <span class="marquee-dot"></span></div>
+    <div class="marquee-item">URBAN CULTURE <span class="marquee-dot"></span></div>
+  </div>
+</div>
+
+<!-- WORK -->
+<div id="work">
+  <div class="section-header reveal">
+    <div>
+      <div class="section-num">01 / SELECTED WORK</div>
+      <div class="section-title">OUR<br>PROJECTS</div>
+    </div>
+    <a href="#" class="section-link">ALL PROJECTS →</a>
+  </div>
+
+  <div class="work-grid">
+    <div class="work-item">
+      <div class="work-visual vis-1">
+        <svg width="100%" height="100%" viewBox="0 0 700 400" style="position:absolute;inset:0">
+          <rect x="60" y="60" width="240" height="280" fill="none" stroke="#e63329" stroke-width="1.5"/>
+          <rect x="90" y="90" width="240" height="280" fill="none" stroke="#ffffff0a" stroke-width="1"/>
+          <line x1="60" y1="200" x2="640" y2="200" stroke="#ffffff08" stroke-width="1"/>
+          <text x="380" y="240" font-family="'Bebas Neue',sans-serif" font-size="90" fill="#e63329" opacity="0.9">BRAND</text>
+          <text x="380" y="310" font-family="'Bebas Neue',sans-serif" font-size="22" fill="#ffffff30" letter-spacing="8">BRAND POSTERS </text>
+        </svg>
+      </div>
+      <div class="work-overlay">
+        <div class="work-overlay-arrow">↗</div>
+        <div class="work-overlay-tag">BRAND IDENTITY</div>
+        <div class="work-overlay-title">POSTER WORK </div>
+      </div>
+    </div>
+
+    <div class="work-item">
+      <div class="work-visual vis-2">
+        <svg width="100%" height="100%" viewBox="0 0 300 380" style="position:absolute;inset:0">
+          <circle cx="150" cy="150" r="100" fill="none" stroke="#ffffff0a" stroke-width="60"/>
+          <circle cx="150" cy="150" r="60" fill="#1a1a3d"/>
+          <circle cx="150" cy="150" r="30" fill="#f5c800"/>
+          <text x="150" y="290" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="28" fill="#ffffff" letter-spacing="6">AI</text>
+          <text x="150" y="315" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" fill="#ffffff40" letter-spacing="3">intelligence</text>
+        </svg>
+      </div>
+      <div class="work-overlay">
+        <div class="work-overlay-arrow">↗</div>
+        <div class="work-overlay-tag">AI ASSISTED</div>
+        <div class="work-overlay-title">AI</div>
+      </div>
+    </div>
+
+    <div class="work-item">
+      <div class="work-visual vis-3">
+        <svg width="100%" height="100%" viewBox="0 0 300 400" style="position:absolute;inset:0">
+          <rect x="30" y="30" width="240" height="340" fill="#0a1a0a"/>
+          <rect x="50" y="50" width="200" height="300" fill="none" stroke="#10b981" stroke-width="1"/>
+          <text x="150" y="170" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="72" fill="#10b981">WEBSITE</text>
+          <line x1="50" y1="200" x2="250" y2="200" stroke="#10b98155" stroke-width="1"/>
+          <text x="150" y="240" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" fill="#10b98166" letter-spacing="4">YOUR WEBSITE.COM</text>
+          <rect x="80" y="280" width="140" height="40" fill="#10b981"/>
+          <text x="150" y="305" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="16" fill="#0a1a0a" letter-spacing="3">LOG IN </text>
+        </svg>
+      </div>
+      <div class="work-overlay">
+        <div class="work-overlay-arrow">↗</div>
+        <div class="work-overlay-tag">WEBSITE MAKING</div>
+        <div class="work-overlay-title">WEB</div>
+      </div>
+    </div>
+
+    <div class="work-item">
+      <div class="work-visual vis-4">
+        <svg width="100%" height="100%" viewBox="0 0 300 360" style="position:absolute;inset:0">
+          <defs>
+            <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#e63329"/>
+              <stop offset="100%" stop-color="#f5c800"/>
+            </linearGradient>
+          </defs>
+          <polygon points="150,40 260,220 40,220" fill="none" stroke="url(#g1)" stroke-width="2"/>
+          <polygon points="150,100 220,220 80,220" fill="url(#g1)" opacity="0.1"/>
+          <text x="150" y="285" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="36" fill="#ffffff">APEX PACKAGE</text>
+          <text x="150" y="310" text-anchor="middle" font-family="'Space Mono',sans-serif" font-size="10" fill="#ffffff40" letter-spacing="4">WOOOW</text>
+        </svg>
+      </div>
+      <div class="work-overlay">
+        <div class="work-overlay-arrow">↗</div>
+        <div class="work-overlay-tag">VISUAL IDENTITY</div>
+        <div class="work-overlay-title">PACKAGE</div>
+      </div>
+    </div>
+
+    <div class="work-item">
+      <div class="work-visual vis-5">
+        <svg width="100%" height="100%" viewBox="0 0 300 360" style="position:absolute;inset:0">
+          <rect x="30" y="60" width="240" height="240" fill="none" stroke="#f5c800" stroke-width="1.5"/>
+          <line x1="30" y1="180" x2="270" y2="180" stroke="#f5c80030" stroke-width="1"/>
+          <line x1="150" y1="60" x2="150" y2="300" stroke="#f5c80030" stroke-width="1"/>
+          <text x="150" y="155" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="58" fill="#f5c800">BRAND.COM</text>
+          <text x="150" y="220" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="14" fill="#ffffff50" letter-spacing="6">Identity Matters</text>
+          <circle cx="150" cy="180" r="6" fill="#f5c800"/>
+        </svg>
+      </div>
+      <div class="work-overlay">
+        <div class="work-overlay-arrow">↗</div>
+        <div class="work-overlay-tag">BRAND DESIGN</div>
+        <div class="work-overlay-title">BRANDING</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<div id="services">
+  <div class="section-header reveal">
+    <div>
+      <div class="section-num">02 / WHAT WE DO</div>
+      <div class="section-title">OUR SERVICES</div>
+    </div>
+  </div>
+
+  <div class="services reveal">
+    <div class="service-card">
+      <div class="service-num">001</div>
+      <div class="service-title">BRAND IDENTITY</div>
+      <p class="service-desc">Full brand systems — logo, color, typography, tone. We build identities that hit hard and last long. </p>
+      <div class="service-icon">⬡</div>
+    </div>
+    <div class="service-card">
+      <div class="service-num">002</div>
+      <div class="service-title">POSTER & PRINT</div>
+      <p class="service-desc">Editorial, event, and campaign posters with raw typographic power. Print that stops people in their tracks.</p>
+      <div class="service-icon">▣</div>
+    </div>
+    <div class="service-card">
+      <div class="service-num">003</div>
+      <div class="service-title">PACKAGING DESIGN</div>
+      <p class="service-desc">We design bold and eye-catching packaging that grabs attention instantly on the shelf and makes your product stand out, connect with customers, and sell itself..</p>
+      <div class="service-icon">◈</div>
+    </div>
+    <div class="service-card">
+      <div class="service-num">004</div>
+      <div class="service-title">WEB DESIGN</div>
+      <p class="service-desc">We create modern, fast, and responsive websites that not only look professional but also engage visitors and turn them into real customers. </p>
+      <div class="service-icon">◎</div>
+    </div>
+	<div class="service-card">
+      <div class="service-num">005</div>
+      <div class="service-title">AI ASSISTED</div>
+      <p class="service-desc">We build smart AI-powered solutions that simplify your work, automate tasks, and improve productivity with innovative and efficient technology.</p>
+      <div class="service-icon">◈</div>
+    </div>
+  </div>
+</div>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>The Studio — Creative Director Profiles</title>
+    <!-- Google Fonts for typography consistency (optional but matches design intent) -->
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* ----- GLOBAL RESET / DESIGN SYSTEM (consistent with studio aesthetic) ----- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0a0a;
+            font-family: 'DM Sans', sans-serif;
+            color: #f0f0f0;
+            line-height: 1.4;
+        }
+
+        /* CSS variables – matches the original "black, gray, red, yellow" vibe */
+        :root {
+            --black: #050505;
+            --gray: #121212;
+            --mid: #1e1e1e;
+            --red: #d62828;
+            --yellow: #f4a261;
+            --white: #f5f5f5;
+        }
+
+        /* About section container */
+        #about {
+            background: var(--black);
+            padding: 80px 0 20px 0;
+            border-bottom: 1px solid #1f1f1f;
+        }
+
+        /* Section header styling */
+        .section-header {
+            margin: 0 48px 56px 48px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            border-bottom: 1px solid #2a2a2a;
+            padding-bottom: 24px;
+        }
+
+        .section-num {
+            font-family: 'Space Mono', monospace;
+            font-size: 12px;
+            letter-spacing: 3px;
+            color: #6a6a6a;
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 84px;
+            line-height: 0.9;
+            letter-spacing: 6px;
+            color: var(--white);
+        }
+
+        /* Profile grid: two column layout with raw grunge gap */
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2px;
+            margin: 0 48px 40px;
+            background: var(--black);
+        }
+
+        .profile-card {
+            background: var(--gray);
+            padding: 48px 36px 56px;
+            transition: background 0.3s ease, transform 0.2s;
+            border: 1px solid transparent;
+        }
+
+        .profile-card:hover {
+            background: var(--mid);
+            border-color: #2e2e2e;
+        }
+
+        /* PHOTO SLOT — now holds actual images, circular + subtle hover border */
+        .photo-slot {
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 32px auto;
+            border-radius: 50%;
+            background: #111;
+            border: 2px solid #2a2a2a;
+            overflow: hidden;
+            transition: all 0.2s ease;
+            cursor: default;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+        }
+
+        /* subtle hover effect that elevates portrait */
+        .photo-slot:hover {
+            border-color: var(--red);
+            transform: scale(1.02);
+            box-shadow: 0 15px 25px rgba(0,0,0,0.5);
+        }
+
+        /* image inside photo slot — perfect cover & circular crop */
+        .photo-slot img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        .photo-slot:hover img {
+            transform: scale(1.05);
+        }
+
+        /* profile info typography */
+        .profile-info {
+            text-align: center;
+        }
+
+        .profile-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 32px;
+            letter-spacing: 2px;
+            color: var(--white);
+            margin-bottom: 8px;
+        }
+
+        .profile-role {
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 2.5px;
+            color: var(--red);
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .profile-bio {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #bbb;
+            font-weight: 300;
+            margin-bottom: 28px;
+            max-width: 280px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .profile-social {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .profile-social-link {
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 2px;
+            color: #777;
+            text-decoration: none;
+            transition: color 0.2s;
+            border-bottom: 1px solid #2a2a2a;
+            padding-bottom: 2px;
+        }
+
+        .profile-social-link:hover {
+            color: var(--white);
+            border-bottom-color: var(--red);
+        }
+
+        /* footnote / quote + cta */
+        .profile-footnote {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 48px 60px;
+            padding-top: 24px;
+            border-top: 1px solid #1a1a1a;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .profile-quote {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            font-style: italic;
+            color: #aaa;
+            letter-spacing: 0.3px;
+        }
+
+        .profile-contact-trigger .section-link {
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-decoration: none;
+            color: var(--white);
+            border-bottom: 1px solid var(--red);
+            padding-bottom: 4px;
+            transition: all 0.2s;
+        }
+
+        .profile-contact-trigger .section-link:hover {
+            color: var(--yellow);
+            border-bottom-color: var(--yellow);
+        }
+
+        /* reveal animation (preserved) */
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* responsive */
+        @media (max-width: 900px) {
+            .section-header {
+                margin: 0 24px 40px 24px;
+            }
+            .section-title {
+                font-size: 56px;
+            }
+            .profile-grid {
+                grid-template-columns: 1fr;
+                margin: 0 24px 30px;
+                gap: 12px;
+            }
+            .profile-card {
+                padding: 36px 24px 44px;
+            }
+            .photo-slot {
+                width: 140px;
+                height: 140px;
+            }
+            .profile-footnote {
+                margin: 20px 24px 50px;
+                flex-direction: column;
+                text-align: center;
+            }
+            .profile-name {
+                font-size: 28px;
+            }
+        }
+
+        /* smooth scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <!-- ABOUT SECTION: TWO-PERSON PROFILE SPACE WITH ACTUAL PHOTO SLOTS (images added) -->
+    <div id="about">
+        <div class="section-header reveal">
+            <div>
+                <div class="section-num">03 / WHO WE ARE</div>
+                <div class="section-title">THE<br>STUDIO</div>
+            </div>
+        </div>
+
+        <!-- Profile grid: two creative directors with actual portrait images -->
+        <div class="profile-grid reveal">
+            <!-- Profile 1 - Maya Rivera (First image: 504470492_17862853716413232_5779800268772203183_n.jpg) -->
+            <div class="profile-card">
+                <div class="photo-slot">
+                    <!-- IMAGE ADDED: first file (Maya Rivera) -->
+                    <img src="504470492_17862853716413232_5779800268772203183_n.jpg" 
+                         alt="Maya Rivera portrait – creative director and founder, bold editorial style"
+                         loading="eager">
+                </div>
+                <div class="profile-info">
+                    <div class="profile-name">HAZEHM</div>
+                    <div class="profile-role">Creative Director & Founder</div>
+                    <div class="profile-bio">
+                        Typography addict, street art enthusiast. Leads the studio’s visual voice with 12+ years of radical brand storytelling.
+                    </div>
+                    <div class="profile-social">
+                        <a href="#" class="profile-social-link">IG</a>
+                        <a href="#" class="profile-social-link">BH</a>
+                        <a href="#" class="profile-social-link">PIN</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile 2 - Liam Chen (Second image: 540603896_17919006651150446_5790886828788290497_n.jpg) -->
+            <div class="profile-card">
+                <div class="photo-slot">
+                    <!-- IMAGE ADDED: second file (Liam Chen) -->
+                    <img src="540603896_17919006651150446_5790886828788290497_n.jpg" 
+                         alt="Liam Chen portrait – design principal and strategist, motion & identity expert"
+                         loading="eager">
+                </div>
+                <div class="profile-info">
+                    <div class="profile-name">DOOM PRO</div>
+                    <div class="profile-role">Creative Director & Founder</div>
+                    <div class="profile-bio">
+                        Digital native, motion lover. Pushes boundaries between print and pixels, crafting identities that move culture forward.
+                    </div>
+                    <div class="profile-social">
+                        <a href="https://www.instagram.com/_abrar_6_6_6/" class="profile-social-link">IG</a>
+                        <a href="https://www.behance.net/doompro1221" class="profile-social-link">BH</a>
+                        <a href="https://pin.it/5EbqQnmTO" class="profile-social-link">PIN</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- footnote with quote and contact link -->
+        <div class="profile-footnote reveal">
+            <div class="profile-quote">“Design is not just what it looks like — it’s what it does.”</div>
+            <div class="profile-contact-trigger">
+                <a href="#contact" class="section-link">WORK WITH US →</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- simple reveal-on-scroll script (preserves original interaction) -->
+    <script>
+        (function() {
+            const revealElements = document.querySelectorAll('.reveal');
+            
+            function checkReveal() {
+                const windowHeight = window.innerHeight;
+                const revealPoint = 120;
+                
+                revealElements.forEach(el => {
+                    const elementTop = el.getBoundingClientRect().top;
+                    if (elementTop < windowHeight - revealPoint) {
+                        el.classList.add('visible');
+                    } else {
+                        // optional: keep hidden if not yet scrolled, but usually keep visible after first appear
+                        // we don't remove class to keep consistent
+                    }
+                });
+            }
+            
+            // initial trigger
+            window.addEventListener('load', checkReveal);
+            window.addEventListener('scroll', checkReveal);
+            checkReveal();
+        })();
+    </script>
+    <!-- NOTE: The two image files have been successfully placed into the circular photo slots.
+         Filenames:
+         - First profile (Maya Rivera): 504470492_17862853716413232_5779800268772203183_n.jpg
+         - Second profile (Liam Chen): 540603896_17919006651150446_5790886828788290497_n.jpg
+         Ensure both images are located in the same directory as this HTML file, or adjust the src path accordingly.
+         The design maintains original 'add photo' placeholder aesthetic, but now showcases actual portraits. -->
+</body>
+</html>
+  <div class="about-strip reveal">
+    <div class="about-left">
+      <div class="about-label">OUR STORY</div>
+      <div class="about-title">DESIGN IS<br>A STATEMENT</div>
+      <p class="about-body">Urban Studio began as a dream shared by two friends studying at Nahjur Rashad Islamic College. What started as a passion for creativity, design, and visual storytelling soon grew into something much bigger.
+
+With a vision to help brands communicate better and stand out, we started our journey by creating designs that were both meaningful and impactful. From simple projects to complete brand identities, every step helped us learn, grow, and refine our craft.
+
+Today, Urban Studio specializes in graphic design, branding, web design, packaging, and AI-powered creative solutions. We work with businesses, organizations, and individuals who want more than just good-looking visuals—they want a memorable identity.
+
+Our journey is still unfolding, driven by creativity, innovation, and a commitment to excellence. What began between two friends at Nahjur Rashad continues today as a studio dedicated to turning ideas into powerful visual experiences.
+</p>
+    </div>
+    <div class="about-right">
+      <div class="stat-row">
+        <div>
+          <div class="stat-val">02+</div>
+          <div class="stat-label">YEARS ACTIVE</div>
+        </div>
+        <div>
+          <div class="stat-val">20</div>
+          <div class="stat-label">PROJECTS DONE</div>
+        </div>
+        <div>
+          <div class="stat-val">05</div>
+          <div class="stat-label">CLIENTS</div>
+        </div>
+        <div>
+          <div class="stat-val">4.5</div>
+          <div class="stat-label">OVERALL RATING</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT + SOCIAL BUTTONS (INSTAGRAM, BEHANCE, PINTEREST, WHATSAPP) -->
+<div id="contact">
+  <div class="contact-section reveal">
+    <div class="contact-label">04 / LET'S WORK</div>
+    <div class="contact-big">GOT A<br><span>PROJECT?</span></div>
+    <a class="contact-email" href="urbanstudio644@gmail.com">urbanstudio644@gmail.com</a>
+    
+    <!-- CUSTOM CONTACT BUTTONS as requested: INSTA, BEHANCE, PINTEREST, WHATSAPP -->
+    <div class="social-buttons-area">
+      <div class="social-group-label">// CONNECT & FOLLOW //</div>
+      <div class="contact-btn-grid">
+        <a href="https://www.instagram.com/urban_studi.o?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" class="contact-btn" target="_blank" rel="noopener noreferrer">📷 INSTAGRAM</a>
+        <a href="https://www.behance.net/urbanstudio11" class="contact-btn" target="_blank" rel="noopener noreferrer">🎨 BEHANCE</a>
+        <a href="https://pin.it/4nzlJ6Jho" class="contact-btn" target="_blank" rel="noopener noreferrer">📌 PINTEREST</a>
+        <a href="#" class="contact-btn" target="_blank" rel="noopener noreferrer">💬 WHATSAPP</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER (updated: Instagram, Behance, Pinterest, WhatsApp) -->
+<footer>
+  <div class="footer-logo">URBAN STUDIO</div>
+  <div class="footer-copy">© 2025 URBAN STUDIO. ALL RIGHTS RESERVED.</div>
+  <div class="footer-socials">
+    <a href="//www.instagram.com/urban_studi.o?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">INSTAGRAM</a>
+    <a href="https://www.behance.net/urbanstudio11" target="_blank">BEHANCE</a>
+    <a href="https://pin.it/4nzlJ6Jho" target="_blank">PINTEREST</a>
+    <a href="#" target="_blank">WHATSAPP</a>
+  </div>
+</footer>
+
+<script>
+// Custom cursor
+const dot = document.getElementById('cursor-dot');
+const ring = document.getElementById('cursor-ring');
+let mx=0, my=0, rx=0, ry=0;
+document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; dot.style.left=mx+'px'; dot.style.top=my+'px'; });
+function animRing(){
+  rx += (mx-rx)*0.12; ry += (my-ry)*0.12;
+  ring.style.left=rx+'px'; ring.style.top=ry+'px';
+  requestAnimationFrame(animRing);
+}
+animRing();
+document.querySelectorAll('a, button, .work-item, .service-card, .contact-btn').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('hovering'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('hovering'));
+});
+
+// Scroll reveal animation
+const reveals = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
+},{threshold:0.15});
+reveals.forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
